@@ -1,7 +1,7 @@
 int main()
 {
   int i,j;
-   for (i = 1;i <= 24;i++)
+   for (i = 1;i <= 42;i++)
      {
        while (j <= 2)
 	 {
