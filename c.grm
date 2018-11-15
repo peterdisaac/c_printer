@@ -1,0 +1,234 @@
+define program
+  [c_function]
+end define
+
+define c_function
+  [repeat include_statement] [NL]
+  [function_head] [NL]
+  { [NL][IN]
+      [function_body]
+  }
+end define
+
+define include_statement
+  '#[SPOFF][id][SPON] '<[SPOFF][id]'.[id]'>[SPON][NL]
+end define
+
+comments
+  /* */
+  //
+end comments
+
+define function_body
+  [repeat function_statements]
+end define
+
+define function_statements
+  [variable_declaration]
+  | [variable_assignment]
+  | [scan_statement]
+  | [if_statement]
+  | [print_statement]
+  | [return_statement]
+  | [switch_statement]
+  | [for_statement]
+  | [while_statement]
+  | [do_while]
+  | [counter] [NL]
+  | [continue_statement]
+end define
+
+define control_statements
+  [variable_assignment]
+  | [variable_declaration]
+  | [scan_statement]
+  | [print_statement]
+  | [if_statement]
+  | [switch_statement]
+  | [do_while]
+  | [for_statement]
+  | [while_statement]
+  | [counter]
+  | [continue_statement]
+end define
+
+define function_head
+  [return_type] [function_name]()
+end define
+
+define variable_declaration
+	[id] [id] [id] = [number]; [NL]
+  | [id] [list id]; [NL]
+  | [id] [id] [list id]; [NL]
+end define
+
+define variable_assignment
+  [id] = [number]; [NL]
+  | [id] = [charlit]; [NL]
+  | [id] = [stringlit]; [NL]
+  | [id] = [id] + [number]; [NL]
+  | [id] = [id] - [number]; [NL]
+  | [id] = [id] * [number]; [NL]
+end define
+
+define return_type
+  int
+end define
+
+define function_name
+  [id]
+end define
+
+define return_statement
+  return [number]; [NL][EX]
+end define
+
+define print_statement
+  printf[SPOFF]([stringlit]);[SPON] [NL]
+  | printf[SPOFF]([stringlit],[SPON] [id]); [NL]
+end define
+
+tokens
+  id | "[&]\i*"
+end tokens
+
+define scan_statement
+  scanf[SPOFF]([stringlit],[SPON] [id]); [NL]
+end define
+
+define if_statement
+  'if ( [condition_expr] ) [sub_statement]
+  [opt else_statement]
+end define
+
+define sub_statement
+  [bracket_statement]
+  | [IN] [NL] [statement] [EX]
+end define
+
+define bracket_statement
+  '{ [IN] [NL]
+      [repeat compound_statement_body] [EX]
+  '} [NL]
+end define
+
+define statement
+  [variable_assignment]
+  | [variable_declaration]
+  | [print_statement]
+  | [scan_statement]
+end define
+
+define compound_statement_body
+  [repeat variable_assignment]
+  | [repeat variable_declaration]
+  | [repeat if_statement]
+  | [repeat while_statement]
+  | [repeat do_while]
+  | [repeat for_statement]
+  | [repeat print_statement]
+  | [repeat scan_statement]
+  | [repeat switch_statement]
+  | [counter][NL]
+end define
+
+define break_statement
+  break; [NL][EX]
+end define
+
+define open_bracket
+  { [NL]
+end define
+
+define end_bracket
+  } [NL]
+end define
+
+define expr
+  [id] [bool_expr] [number]
+  | [bool_expr][SPOFF]([SPON][id] [bool_expr] [number])
+  | [id] [bool_expr] [id]
+end define
+
+compounds
+  '&&
+  '||
+end compounds
+
+define condition_expr
+  [expr]
+  | [expr] [or_and] [expr]
+end define
+
+define or_and
+  '&&
+  | '||
+end define
+
+
+define bool_expr
+ '>
+ | '<
+ | '!
+ | '=[SPOFF]=[SPON]
+ | '<[SPOFF]=[SPON]
+ | '>[SPOFF]=[SPON]
+ | '![SPOFF]=[SPON]
+end define
+
+define else_statement
+  'else [else_sub_statement]
+end define
+
+define else_sub_statement
+  [if_statement]
+  | [sub_statement]
+end define
+
+define switch_statement
+  switch ( [id] ) [open_bracket][IN]
+    [repeat case_statement] [EX]
+    [IN] [default_statement] [EX]
+  [end_bracket]
+end define
+
+define case_statement
+  case [charlit] [SPOFF]:[SPON] [NL] [IN]
+    [repeat control_statements]
+    break; [NL][EX]
+end define
+
+define default_statement
+  default [SPOFF]:[SPON] [NL] [IN]
+    [repeat control_statements] [EX]
+end define
+
+define for_statement
+  [for_header] [sub_statement]
+end define
+
+define for_header
+  for([for_assignment]; [expr]; [counter])
+end define
+
+define counter
+  [id][SPOFF]++[SPON]
+  | [id][SPOFF]++;[SPON]
+end define
+
+define for_assignment
+  [id] = [number]
+end define
+
+define while_statement
+  while( [expr] ) [sub_statement]
+end define
+
+define do_while
+  'do [sub_statement]
+  'while( [expr] ); [NL]
+end define
+
+define continue_statement
+  continue; [NL]
+end define
