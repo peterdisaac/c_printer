@@ -3,7 +3,7 @@
 Formats C programs using TXL, a source transformation language
 
 ### Instructions
-Run from terminal
+Run from terminal in this format
 >$ txl c_printer.txl test_1.c
 
 ### Requirements
