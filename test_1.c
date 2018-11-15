@@ -10,7 +10,7 @@ int main()
 	 }
      }
    scanf("%d",&mark);
-   if (mark > 40)
+   if (mark > 50)
    {
      if (mark > 90)
        {
@@ -23,7 +23,7 @@ int main()
    {
      for (i = 0; i < 3; i++)
        {
-	 printf("FAILure!");
+	 printf("Failing grade!");
        } 
      pass = 'n';
       printf("You failed");
