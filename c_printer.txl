@@ -1,4 +1,4 @@
-include "c_new.grm"
+include "c.grm"
 
 function main
   match [program]
